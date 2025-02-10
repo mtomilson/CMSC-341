@@ -35,7 +35,7 @@ public:
             m_unidist = uniform_int_distribution<>(min,max);
         }
         else if (type == UNIFORMREAL) { //the case of UNIFORMREAL to generate real numbers
-            m_generator = mt19937(m_device());// 10 is the fixed seed value
+            m_generator = mt19937(10);// 10 is the fixed seed value
             m_uniReal = uniform_real_distribution<double>((double)min,(double)max);
         }
         else { //the case of SHUFFLE to generate every number only once

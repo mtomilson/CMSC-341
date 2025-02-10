@@ -21,7 +21,6 @@ Course::Course(int maxNumSections)
         m_course[i] = nullptr;
     }
     m_numSections = 0;
-    cout << "course with " << m_maxNumSections << " created." << endl;
 }
 Course::~Course()
 {
@@ -81,7 +80,6 @@ bool Course::insertSection(int ID, string instructor, int numItems, int numStude
             }
         }
     }
-    cout << "still running even after return false" << endl;
     if (m_course[m_numSections] != nullptr)
     {
         delete m_course[m_numSections];
@@ -214,7 +212,7 @@ Section *Course::getSection(int sectionID) const
 
 Section::Section()
 {
-    m_sectionID = 1;
+    m_sectionID = 0;
     m_numStudents = 0;
     m_numGradingItems = 0;
     m_instructor = "";
@@ -225,7 +223,7 @@ Section::Section(int ID, string instructor, int items, int students)
     // checks if the num grading items or students is negative, if negative create empty object.
     if (items < 0 || students < 0)
     {
-        m_sectionID = 1;
+        m_sectionID = 0;
         m_instructor = "";
         m_numGradingItems = 0;
         m_numStudents = 0;
@@ -257,7 +255,7 @@ Section::~Section()
 
     m_section = nullptr;
     m_instructor = "";
-    m_sectionID = 1;
+    m_sectionID = 0;
     m_numGradingItems = 0;
     m_numStudents = 0;
 }
@@ -270,7 +268,7 @@ void Section::clear()
     delete[] m_section;
 
     m_instructor = "";
-    m_sectionID = 1;
+    m_sectionID = 0;
     m_numGradingItems = 0;
     m_numStudents = 0;
 }
