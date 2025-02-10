@@ -11,6 +11,7 @@ public:
     void testAssignmentOperator();
     void testAssignmentOperatorEdge();
     void testStudentAverage();
+    void testRemoveSection();
     /******************************************
      * Test function declarations go here! *
      ******************************************/
@@ -45,7 +46,8 @@ int main()
     // cout << endl;
 
     Tester tester;
-    tester.testStudentAverage();
+    tester.testRemoveSection();
+
     return 0;
 }
 
@@ -130,4 +132,22 @@ void Tester::testStudentAverage()
     double average = testSection.studentAverage(1);
     testSection.dump();
     cout << "Average of Student 3: " << average <<  endl;
+}
+
+void Tester::testRemoveSection() {
+    Course testCourse(4);
+    testCourse.insertSection(142, "test", 2,2);
+    testCourse.insertSection(122, "testt", 1,2);
+    testCourse.insertSection(143, "testtt", 2,2);
+    testCourse.insertSection(141, "testttt", 3,2);
+
+    testCourse.removeSection(143);
+
+    testCourse.insertSection(133,"Tester", 2, 4);
+    testCourse.displaySections();
+
+
+
+
+
 }

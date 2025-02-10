@@ -144,15 +144,27 @@ bool Course::removeSection(int sectionID)
     {
         if ((m_course[i]->m_sectionID == sectionID) && m_course[i] != nullptr)
         {
+            deletedIndex = i;
             delete m_course[i];
             m_course[i] = nullptr;
+
+            for (int i = deletedIndex; i < m_numSections - 1; i++)
+            {
+                m_course[i] = m_course[i + 1];
+            }
+            m_course[m_numSections - 1] = nullptr;
             m_numSections--;
+            for (int i = 0; i < m_numSections; i++)
+            {
+                cout << i;
+                m_course[i]->dump();
+                cout << m_course[i]->m_sectionID << endl;
+                cout << endl;
+            }
             return true;
         }
     }
     return false;
-
-
 }
 
 double Course::courseAverage()
@@ -168,6 +180,19 @@ double Course::courseAverage()
     }
     return sectionAverages / totalSections;
 }
+
+void Course::displaySections()
+{
+    for (int i = 0; i < m_numSections; i++)
+    {
+        cout << i;
+        m_course[i]->dump();
+        cout << m_course[i]->m_sectionID << endl;
+
+        cout << endl;
+    }
+}
+
 Section *Course::getSection(int sectionID) const
 {
     if (m_course != nullptr)
@@ -197,7 +222,7 @@ Section::Section()
 }
 Section::Section(int ID, string instructor, int items, int students)
 {
-    //checks if the num grading items or students is negative, if negative create empty object.
+    // checks if the num grading items or students is negative, if negative create empty object.
     if (items < 0 || students < 0)
     {
         m_sectionID = 1;
@@ -406,12 +431,11 @@ int Section::getNumStudents()
     return m_numStudents;
 }
 
-void Section::displayMemberVariables() {
-    cout << "ID: " <<  m_sectionID << endl;
+void Section::displayMemberVariables()
+{
+    cout << "ID: " << m_sectionID << endl;
     cout << "Number of Students: " << m_numStudents << endl;
     cout << "Number of Grading Items: " << m_numGradingItems << endl;
     cout << "Instructor: " << m_instructor << endl;
     cout << "Section Memory Address: " << m_section << endl;
-
 }
-

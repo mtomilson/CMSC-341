@@ -177,6 +177,7 @@ class Course{
     bool removeSection(int sectionID);
     Section * getSection(int sectionID) const;
     void dump();
+    void displaySections();
     private:
     Section ** m_course;    // stores pointers to sections
     int m_numSections;      // number of current sections
