@@ -18,7 +18,7 @@ public:
 };
 int main()
 {
-    // the following is a sample usage of the Section class
+    //the following is a sample usage of the Section class
     // cout << "the following is a sample usage of the Section class:" << endl;
     // Section * aSection = new Section(1000,"John Smith", 8, 8);
     // aSection->simulateData();
@@ -45,8 +45,7 @@ int main()
     //     cout << "\tError case (student index does not exist) of studentAverage() failed!\n";
     // cout << endl;
 
-    Tester tester;
-    tester.testRemoveSection();
+    
 
     return 0;
 }

@@ -276,17 +276,15 @@ void Section::clear()
 }
 void Section::simulateData()
 {
-    Random *random = new Random(0, 100, UNIFORMREAL);
+    Random random(0,100,UNIFORMREAL);
     for (int i = 0; i < m_numStudents; i++)
     {
         for (int j = 0; j < m_numGradingItems; j++)
         {
-            m_section[i][j] = random->getRealRandNum();
+            m_section[i][j] = random.getRealRandNum();
         }
         cout << endl;
     }
-
-    delete random;
 }
 
 double Section::studentAverage(int student)
@@ -305,7 +303,6 @@ double Section::studentAverage(int student)
         {
             for (int j = 0; j < m_numGradingItems; j++)
             {
-                cout << "hitting" << endl;
                 totalGrades += m_section[i][j];
             }
         }
