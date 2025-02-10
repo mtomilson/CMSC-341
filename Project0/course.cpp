@@ -75,7 +75,6 @@ bool Course::insertSection(int ID, string instructor, int numItems, int numStude
         {
             if (m_course[i]->m_sectionID == ID)
             {
-                cout << "Cannot add duplicate id" << endl;
                 return false;
             }
         }
@@ -152,13 +151,6 @@ bool Course::removeSection(int sectionID)
             }
             m_course[m_numSections - 1] = nullptr;
             m_numSections--;
-            for (int i = 0; i < m_numSections; i++)
-            {
-                cout << i;
-                m_course[i]->dump();
-                cout << m_course[i]->m_sectionID << endl;
-                cout << endl;
-            }
             return true;
         }
     }
@@ -281,7 +273,6 @@ void Section::simulateData()
         {
             m_section[i][j] = random.getRealRandNum();
         }
-        cout << endl;
     }
 }
 

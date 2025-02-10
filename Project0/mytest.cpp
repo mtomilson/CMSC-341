@@ -3,26 +3,23 @@
 class Tester
 {
 public:
-    bool testStudentAveErrorCase(); // done
-    bool copyAnEmptyObject(); // done
-    bool testNegativeItemsOrStudents();// done
-    bool testConstructor();// done
-    bool testCopyConstructor();// done
-    bool testAssignmentOperator();// done
-    bool testAssignmentOperatorEdge();// done
-
-    void testStudentAverage();
-
-    bool testInsertSection();// done
-    bool testInsertSectionEdge();
-
-    void testRemoveSection();
+    bool testStudentAveErrorCase();     // done
+    bool copyAnEmptyObject();           // done
+    bool testNegativeItemsOrStudents(); // done
+    bool testConstructor();             // done
+    bool testCopyConstructor();         // done
+    bool testAssignmentOperator();      // done
+    bool testAssignmentOperatorEdge();  // done
+    bool testStudentAverage(); // done
+    bool testInsertSection();     // done
+    bool testInsertSectionEdge(); // done
+    bool testRemoveSection(); // done
     /******************************************
      * Test function declarations go here! *
      ******************************************/
 };
 int main()
-{   
+{
     Tester tester;
     if (tester.copyAnEmptyObject())
     {
@@ -78,13 +75,39 @@ int main()
         cout << "Failed! Assignment operator did not successfully copy the empty object" << endl;
     }
 
-    if(tester.testInsertSection()) {
+    if (tester.testInsertSection())
+    {
         cout << "Success! Section successfully inserted into the course" << endl;
     }
-    else {
+    else
+    {
         cout << "Failed! Section was not successfully inserted into the course" << endl;
     }
 
+    if (!tester.testInsertSectionEdge())
+    {
+        cout << "Success! Insert Section did not insert a section with an existing ID in the course." << endl;
+    }
+    else
+    {
+        cout << "Failed! Insert Section inserted a section with an existing ID in the course." << endl;
+    }
+
+    if (tester.testStudentAverage())
+    {
+        cout << "Success! Student Average successfully calculated the average of the student" << endl;
+    }
+    else
+    {
+        cout << "Failed! Student Average did not calculate the average correctly" << endl;
+    }
+    
+    if(tester.testRemoveSection()) {
+        cout << "Success! Remove Section successfully removed the section" << endl;
+    }
+    else {
+        cout << "Failed! Remove Section did not remove the section" << endl;
+    }
     return 0;
 }
 
@@ -244,17 +267,37 @@ bool Tester::testInsertSection()
     }
 }
 
-void Tester::testStudentAverage()
+bool Tester::testInsertSectionEdge()
+{
+    Course course(2);
+    course.insertSection(142, "Instructor Tom", 5, 3);
+    if (course.insertSection(142, "Instructor Joe", 5, 2))
+    { // trying to insert a section with the same id
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Tester::testStudentAverage()
 {
     Section testSection(142, "Instructor Tom", 5, 3);
     testSection.simulateData();
 
     double average = testSection.studentAverage(1);
-    testSection.dump();
-    cout << "Average of Student 3: " << average << endl;
+    if (average == 53.028)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-void Tester::testRemoveSection()
+bool Tester::testRemoveSection()
 {
     Course testCourse(4);
     testCourse.insertSection(142, "test", 2, 2);
@@ -264,6 +307,12 @@ void Tester::testRemoveSection()
 
     testCourse.removeSection(143);
 
-    testCourse.insertSection(133, "Tester", 2, 4);
-    testCourse.displaySections();
+    if (!testCourse.getSection(143))
+    { // if getSection() returns true then the section was not removed properly
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
