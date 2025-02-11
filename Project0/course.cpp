@@ -90,13 +90,12 @@ bool Course::insertSection(int ID, string instructor, int numItems, int numStude
 }
 bool Course::insertSection(Section *&aSection)
 {
-
+    bool canAdd = true;
     if ((aSection->m_section == nullptr) ||
         (m_numSections == m_maxNumSections) ||
         (aSection->m_numGradingItems == 0) || aSection->m_numStudents == 0)
     {
-        cout << "not adding " << endl;
-        return false;
+        canAdd = false;
     }
 
     // check if course is empty, if empty allocate proper memory
@@ -119,18 +118,17 @@ bool Course::insertSection(Section *&aSection)
     {
         if ((m_course[i] != nullptr) && (m_course[i]->m_sectionID == aSection->m_sectionID))
         {
-            cout << " cannot add, duplicate id" << endl;
-            return false;
-            cout << "why is this still running" << endl;
-            
+            canAdd = false;
         }
     }
 
-    cout << "setill inserting" << endl;
-    m_course[m_numSections] = aSection;
-    m_numSections++;
-    return true;
+    if (canAdd)
+    {
+        m_course[m_numSections] = aSection;
+        m_numSections++;
+    }
 
+    return canAdd;
 }
 
 bool Course::removeSection(int sectionID)

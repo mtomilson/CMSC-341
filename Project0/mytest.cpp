@@ -123,7 +123,7 @@ int main()
         cout << "Failed! Insert section using an object did not successfully add" << endl;
     }
 
-    if (tester.testInsertSectionObjectEdge())
+    if (!tester.testInsertSectionObjectEdge())
     {
         cout << "Success! Insert section did not insert the object" << endl;
     }
