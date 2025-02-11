@@ -10,7 +10,7 @@ public:
     bool testCopyConstructor();         // done
     bool testAssignmentOperator();      // done
     bool testAssignmentOperatorEdge();  // done
-    bool testStudentAverage(); // done
+    bool testStudentAverage(); // done 
     bool testInsertSection();     // done
     bool testInsertSectionEdge(); // done
     bool testRemoveSection(); // done
@@ -131,7 +131,7 @@ bool Tester::copyAnEmptyObject()
     Section emptyObject = testObject;
 
     if (testObject.m_instructor == "" && testObject.m_numGradingItems == 0 && testObject.m_numGradingItems == 0 && testObject.m_section == nullptr &&
-        testObject.m_sectionID == 0)
+        testObject.m_sectionID == 1)
     {
         return true;
     }
@@ -145,7 +145,7 @@ bool Tester::testNegativeItemsOrStudents()
 {
     Section testObject(123, "teacher", -10, -5);
     if (testObject.m_instructor == "" && testObject.m_numGradingItems == 0 && testObject.m_numGradingItems == 0 && testObject.m_section == nullptr &&
-        testObject.m_sectionID == 0)
+        testObject.m_sectionID == 1)
     {
         return true;
     }
@@ -242,7 +242,7 @@ bool Tester::testAssignmentOperatorEdge()
     testObject = emptyObject;
 
     if (testObject.m_instructor == "" && testObject.m_numGradingItems == 0 && testObject.m_numGradingItems == 0 && testObject.m_section == nullptr &&
-        testObject.m_sectionID == 0)
+        testObject.m_sectionID == 1)
     {
         return true;
     }
@@ -285,8 +285,7 @@ bool Tester::testStudentAverage()
 {
     Section testSection(142, "Instructor Tom", 5, 3);
     testSection.simulateData();
-
-    double average = testSection.studentAverage(1);
+    double average = testSection.studentAverage(0);
     if (average == 53.028)
     {
         return true;

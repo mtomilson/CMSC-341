@@ -193,7 +193,6 @@ Section *Course::getSection(int sectionID) const
             {
                 if (m_course[i]->m_sectionID == sectionID)
                 {
-                    cout << " found section " << endl;
                     return m_course[i];
                 }
             }
@@ -204,7 +203,7 @@ Section *Course::getSection(int sectionID) const
 
 Section::Section()
 {
-    m_sectionID = 0;
+    m_sectionID = 1;
     m_numStudents = 0;
     m_numGradingItems = 0;
     m_instructor = "";
@@ -215,7 +214,7 @@ Section::Section(int ID, string instructor, int items, int students)
     // checks if the num grading items or students is negative, if negative create empty object.
     if (items < 0 || students < 0)
     {
-        m_sectionID = 0;
+        m_sectionID = 1;
         m_instructor = "";
         m_numGradingItems = 0;
         m_numStudents = 0;
@@ -247,7 +246,7 @@ Section::~Section()
 
     m_section = nullptr;
     m_instructor = "";
-    m_sectionID = 0;
+    m_sectionID = 1;
     m_numGradingItems = 0;
     m_numStudents = 0;
 }
@@ -260,13 +259,13 @@ void Section::clear()
     delete[] m_section;
 
     m_instructor = "";
-    m_sectionID = 0;
+    m_sectionID = 1;
     m_numGradingItems = 0;
     m_numStudents = 0;
 }
 void Section::simulateData()
 {
-    Random random(0,100,UNIFORMREAL);
+    Random random(0, 100, UNIFORMREAL);
     for (int i = 0; i < m_numStudents; i++)
     {
         for (int j = 0; j < m_numGradingItems; j++)
@@ -279,7 +278,7 @@ void Section::simulateData()
 double Section::studentAverage(int student)
 {
 
-    if (student > m_numStudents || student <= 0)
+    if (student > m_numStudents || student < 0)
     {
         cout << "Student Does Not Exist." << endl;
         return 0;
@@ -288,7 +287,7 @@ double Section::studentAverage(int student)
 
     for (int i = 0; i < m_numStudents; i++)
     {
-        if (student - 1 == i)
+        if (student == i)
         {
             for (int j = 0; j < m_numGradingItems; j++)
             {
