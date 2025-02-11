@@ -93,25 +93,25 @@ bool Course::insertSection(Section *&aSection)
 
     if ((aSection->m_section == nullptr) ||
         (m_numSections == m_maxNumSections) ||
-        (aSection->m_numGradingItems == 0)|| aSection->m_numStudents == 0)
+        (aSection->m_numGradingItems == 0) || aSection->m_numStudents == 0)
     {
         cout << "not adding " << endl;
         return false;
     }
 
     // check if course is empty, if empty allocate proper memory
-    if (m_course == nullptr)
-    { // if m_course == nullptr, that means it hasn't been initialized yet
-        if (m_maxNumSections == 0)
-        {                                             // if maxnumsections = 0, then it hasn't been set i hope
-            m_course = new Section *[DEFNUMSECTIONS]; // m_course points to an array of sections
-            m_maxNumSections = DEFNUMSECTIONS;
-        }
-        else
-        { // if m_MaxNumSections !== 0, then we use m_MaxNumSections to create m_course
-            m_course = new Section *[m_maxNumSections];
-        }
-    }
+    // if (m_course == nullptr)
+    // { // if m_course == nullptr, that means it hasn't been initialized yet
+    //     if (m_maxNumSections == 0)
+    //     {                                             // if maxnumsections = 0, then it hasn't been set i hope
+    //         m_course = new Section *[DEFNUMSECTIONS]; // m_course points to an array of sections
+    //         m_maxNumSections = DEFNUMSECTIONS;
+    //     }
+    //     else
+    //     { // if m_MaxNumSections !== 0, then we use m_MaxNumSections to create m_course
+    //         m_course = new Section *[m_maxNumSections];
+    //     }
+    // }
 
     // check dup id
 
@@ -121,16 +121,16 @@ bool Course::insertSection(Section *&aSection)
         {
             cout << " cannot add, duplicate id" << endl;
             return false;
+            cout << "why is this still running" << endl;
+            
         }
     }
-    if (m_course != nullptr)
-    {
-        m_course[m_numSections] = aSection;
-        m_numSections++;
-        return true;
-    }
 
-    return false;
+    cout << "setill inserting" << endl;
+    m_course[m_numSections] = aSection;
+    m_numSections++;
+    return true;
+
 }
 
 bool Course::removeSection(int sectionID)
@@ -162,7 +162,6 @@ double Course::courseAverage()
     double sectionAverages = 0.0;
 
     cout << "num of sections" << m_numSections << endl;
-
 
     for (int i = 0; i < m_numSections; i++)
     {

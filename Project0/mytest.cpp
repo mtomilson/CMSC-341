@@ -114,8 +114,6 @@ int main()
     {
         cout << "Failed! Remove Section did not remove the section" << endl;
     }
-    return 0;
-
     if (tester.testInsertSectionObject())
     {
         cout << "Success! Insert section using an object successfully added!" << endl;
@@ -133,6 +131,7 @@ int main()
     {
         cout << "Failed! Insert section inserted the object." << endl;
     }
+    return 0;
 }
 
 bool Tester::testStudentAveErrorCase()
