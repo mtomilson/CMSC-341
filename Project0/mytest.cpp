@@ -10,10 +10,14 @@ public:
     bool testCopyConstructor();         // done
     bool testAssignmentOperator();      // done
     bool testAssignmentOperatorEdge();  // done
-    bool testStudentAverage(); // done 
-    bool testInsertSection();     // done
-    bool testInsertSectionEdge(); // done
+    bool testStudentAverage();          // done
+    bool testInsertSection();           // done
+    bool testInsertSectionEdge();       // done
+    bool testInsertSectionError();
+    bool testInsertSectionObject();
+    bool testInsertSectionObjectEdge();
     bool testRemoveSection(); // done
+
     /******************************************
      * Test function declarations go here! *
      ******************************************/
@@ -101,14 +105,34 @@ int main()
     {
         cout << "Failed! Student Average did not calculate the average correctly" << endl;
     }
-    
-    if(tester.testRemoveSection()) {
+
+    if (tester.testRemoveSection())
+    {
         cout << "Success! Remove Section successfully removed the section" << endl;
     }
-    else {
+    else
+    {
         cout << "Failed! Remove Section did not remove the section" << endl;
     }
     return 0;
+
+    if (tester.testInsertSectionObject())
+    {
+        cout << "Success! Insert section using an object successfully added!" << endl;
+    }
+    else
+    {
+        cout << "Failed! Insert section using an object did not successfully add" << endl;
+    }
+
+    if (tester.testInsertSectionObjectEdge())
+    {
+        cout << "Success! Insert section did not insert the object" << endl;
+    }
+    else
+    {
+        cout << "Failed! Insert section inserted the object." << endl;
+    }
 }
 
 bool Tester::testStudentAveErrorCase()
@@ -309,6 +333,48 @@ bool Tester::testRemoveSection()
     if (!testCourse.getSection(143))
     { // if getSection() returns true then the section was not removed properly
         return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Tester::testInsertSectionObject()
+{
+    Course testCourse(4);
+    Section *section = new Section(142, "test", 2, 2);
+
+    testCourse.insertSection(section);
+
+    if (testCourse.getSection(142))
+    { // if testcourse.getsection returns true then it successfully found the section we just added.
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Tester::testInsertSectionObjectEdge()
+{
+    Course testCourse(2);
+    Section *section1 = new Section(142, "Instructor Tom", 5, 5);
+    Section *section2 = new Section(142, "Instructor Phil", 1, 2);
+
+    testCourse.insertSection(section1);
+    return testCourse.insertSection(section2); // should return false because we can't insert duplicate id.
+}
+
+bool Tester::testInsertSectionError()
+{
+    Course course(2);
+    course.insertSection(142, "professor", 0, 0); // error, cannot add section with 0 grading items or 0 students
+
+    if (!course.getSection(142))
+    {
+        return true; // if getSection() returns false then it wasn't able to be found therefore it wasn't added.
     }
     else
     {

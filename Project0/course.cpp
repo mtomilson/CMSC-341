@@ -64,7 +64,7 @@ bool Course::insertSection(int ID, string instructor, int numItems, int numStude
     //     }
     // }
 
-    if (m_numSections >= m_maxNumSections)
+    if (m_numSections >= m_maxNumSections || numStudents == 0 || numItems == 0) // cannot add if number of students or grading items is 0
     {
         return false;
     }
@@ -93,7 +93,7 @@ bool Course::insertSection(Section *&aSection)
 
     if ((aSection->m_section == nullptr) ||
         (m_numSections == m_maxNumSections) ||
-        (aSection->m_section == nullptr))
+        (aSection->m_numGradingItems == 0)|| aSection->m_numStudents == 0)
     {
         cout << "not adding " << endl;
         return false;
@@ -160,15 +160,15 @@ bool Course::removeSection(int sectionID)
 double Course::courseAverage()
 {
     double sectionAverages = 0.0;
-    int totalSections = 0;
 
     cout << "num of sections" << m_numSections << endl;
+
+
     for (int i = 0; i < m_numSections; i++)
     {
         sectionAverages += m_course[i]->classAverage();
-        totalSections++;
     }
-    return sectionAverages / totalSections;
+    return sectionAverages / m_numSections;
 }
 
 void Course::displaySections()
@@ -392,8 +392,10 @@ const Section &Section::operator=(const Section &rhs)
 }
 void Section::dump()
 {
+    cout << "hello" << endl;
     if (m_numGradingItems > 0 && m_numStudents > 0 && m_section != nullptr)
     {
+        cout << "helloeeee" << endl;
         cout << setw(8) << "        ";
         for (int a = 1; a <= m_numGradingItems; a++)
             cout << setw(8) << "Test" << a;
