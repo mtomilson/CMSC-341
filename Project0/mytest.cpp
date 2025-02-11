@@ -211,7 +211,7 @@ bool Tester::testAssignmentOperator()
 
     if (testSection.m_section == copiedSection.m_section)
     {
-        return false; // testSection's m_section address should not equal copiedsection's m_section's address.
+        return false; // testSection's m_section address should not equal copied section's m_section's address.
     }
 
     for (int i = 0; i < testSection.m_numStudents; i++)
