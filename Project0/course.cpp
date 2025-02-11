@@ -157,15 +157,23 @@ bool Course::removeSection(int sectionID)
 
 double Course::courseAverage()
 {
-    double sectionAverages = 0.0;
-
-    cout << "num of sections" << m_numSections << endl;
-
-    for (int i = 0; i < m_numSections; i++)
-    {
-        sectionAverages += m_course[i]->classAverage();
+    double totalGrades = 0.0;
+    int numberOfItems = 0;
+    if(m_numSections == 0) { // if there's no sections in the course then we return 0.0 
+        return 0.0; 
     }
-    return sectionAverages / m_numSections;
+
+    for(int i = 0; i < m_numSections; i++) {
+        for(int j = 0; j < m_course[i]->m_numStudents; j++) {
+            for(int k = 0; k < m_course[i]->m_numGradingItems; k++) {
+                totalGrades += m_course[i]->m_section[j][k];
+                numberOfItems++;
+            }
+
+        }
+    }
+   
+    return totalGrades / numberOfItems;
 }
 
 void Course::displaySections()
@@ -389,10 +397,9 @@ const Section &Section::operator=(const Section &rhs)
 }
 void Section::dump()
 {
-    cout << "hello" << endl;
     if (m_numGradingItems > 0 && m_numStudents > 0 && m_section != nullptr)
     {
-        cout << "helloeeee" << endl;
+
         cout << setw(8) << "        ";
         for (int a = 1; a <= m_numGradingItems; a++)
             cout << setw(8) << "Test" << a;

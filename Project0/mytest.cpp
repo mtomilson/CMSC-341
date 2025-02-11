@@ -13,10 +13,13 @@ public:
     bool testStudentAverage();          // done
     bool testInsertSection();           // done
     bool testInsertSectionEdge();       // done
-    bool testInsertSectionError();
+    bool testInsertSectionError();  
+    bool testFullInsertSection(); 
     bool testInsertSectionObject();
     bool testInsertSectionObjectEdge();
     bool testRemoveSection(); // done
+
+    bool testCourseAverage(); 
 
     /******************************************
      * Test function declarations go here! *
@@ -131,6 +134,28 @@ int main()
     {
         cout << "Failed! Insert section inserted the object." << endl;
     }
+
+    if(tester.testInsertSectionError()) {
+        cout << "Success! Section was not added because there was not enough students and/or items" << endl;
+    }
+    else {
+        cout << "Failed! Section was added with 0 items and/or students." << endl;
+    }
+    
+    if(!tester.testFullInsertSection()) {
+        cout << "Success! Section was not added because the course was full" << endl;
+    } 
+    else {
+        cout << "Failed! Section was added even though the course was full" << endl;
+    }
+
+    if(tester.testCourseAverage()) {
+        cout << "Success! Course average was calculated properly" << endl;
+    }
+    else {
+        cout << "Failed! Course average was not calculated properly" << endl;
+    }
+
     return 0;
 }
 
@@ -377,6 +402,28 @@ bool Tester::testInsertSectionError()
     }
     else
     {
+        return false;
+    }
+}
+
+bool Tester::testFullInsertSection() {
+    Course course(2);
+    course.insertSection(142, "professor", 1, 2);
+    course.insertSection(111, "professor hello", 2, 1);
+    
+    return course.insertSection(123, "Professor test", 2, 1); // should return false because there's not enough space. 
+}
+
+bool Tester::testCourseAverage() {
+    Course course(2);
+    course.insertSection(142,"professor", 3, 2);
+    course.insertSection(121, "professor hill",2 , 2);
+    course.getSection(142)->simulateData();
+    course.getSection(121)->simulateData();
+    if(course.courseAverage() == 47.446) {
+        return true;
+    }
+    else {
         return false;
     }
 }
