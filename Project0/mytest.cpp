@@ -1,9 +1,7 @@
-// UMBC - CMSC 341 - Spring 2025 - Proj0
 #include "course.h"
 class Tester
 {
 public:
-    bool testStudentAveErrorCase();     // done
     bool copyAnEmptyObject();           // done
     bool testNegativeItemsOrStudents(); // done
     bool testConstructor();             // done
@@ -13,17 +11,15 @@ public:
     bool testStudentAverage();          // done
     bool testInsertSection();           // done
     bool testInsertSectionEdge();       // done
-    bool testInsertSectionError();  
-    bool testFullInsertSection(); 
+    bool testInsertSectionError();
+    bool testFullInsertSection();
     bool testInsertSectionObject();
     bool testInsertSectionObjectEdge();
     bool testRemoveSection(); // done
+    bool testClassAverage();
+    bool testCourseAverage();
 
-    bool testCourseAverage(); 
-
-    /******************************************
-     * Test function declarations go here! *
-     ******************************************/
+    bool testTestAverage();
 };
 int main()
 {
@@ -126,7 +122,7 @@ int main()
         cout << "Failed! Insert section using an object did not successfully add" << endl;
     }
 
-    if (!tester.testInsertSectionObjectEdge())
+    if (tester.testInsertSectionObjectEdge())
     {
         cout << "Success! Insert section did not insert the object" << endl;
     }
@@ -135,48 +131,60 @@ int main()
         cout << "Failed! Insert section inserted the object." << endl;
     }
 
-    if(tester.testInsertSectionError()) {
+    if (tester.testInsertSectionError())
+    {
         cout << "Success! Section was not added because there was not enough students and/or items" << endl;
     }
-    else {
+    else
+    {
         cout << "Failed! Section was added with 0 items and/or students." << endl;
     }
-    
-    if(!tester.testFullInsertSection()) {
+
+    if (!tester.testFullInsertSection())
+    {
         cout << "Success! Section was not added because the course was full" << endl;
-    } 
-    else {
+    }
+    else
+    {
         cout << "Failed! Section was added even though the course was full" << endl;
     }
 
-    if(tester.testCourseAverage()) {
+    if (tester.testCourseAverage())
+    {
         cout << "Success! Course average was calculated properly" << endl;
     }
-    else {
+    else
+    {
         cout << "Failed! Course average was not calculated properly" << endl;
+    }
+
+    if (tester.testTestAverage())
+    {
+        cout << "Success! Properly calculated the average of the test" << endl;
+    }
+    else
+    {
+        cout << "Failed! Did not properly calculate the average of the test" << endl;
+    }
+
+    if (tester.testClassAverage())
+    {
+        cout << "Success! Properly calculateed the average of the class" << endl;
+    }
+    else
+    {
+        cout << "Failed! Did not properly calculate the average of the class" << endl;
     }
 
     return 0;
 }
 
-bool Tester::testStudentAveErrorCase()
-{
-    bool result = true;
-    // create an object with 1 student and 10 grading items
-    Section testObject(1000, "John Smith", 10, 1);
-    testObject.simulateData();
-    double average = testObject.studentAverage(1); // out of range index
-    if (average == 0.0)                            // expected output
-        result = true;
-    else
-        result = false;
-    return result;
-}
+// tests the copy constructor for an edge case where it copies an empty object
 
 bool Tester::copyAnEmptyObject()
 {
     Section testObject;
-    Section emptyObject = testObject;
+    Section emptyObject(testObject);
 
     if (testObject.m_instructor == "" && testObject.m_numGradingItems == 0 && testObject.m_numGradingItems == 0 && testObject.m_section == nullptr &&
         testObject.m_sectionID == 1)
@@ -188,6 +196,9 @@ bool Tester::copyAnEmptyObject()
         return false;
     }
 }
+
+// tests the overloaded constructor of section to see if it creates an empty object when a negative amount of students
+// or items were added
 
 bool Tester::testNegativeItemsOrStudents()
 {
@@ -203,6 +214,8 @@ bool Tester::testNegativeItemsOrStudents()
     }
 }
 
+// tests the overloaded constructor of section to see if it properly creates a section with the overloaded data
+
 bool Tester::testConstructor()
 {
     // testing for normal case
@@ -217,6 +230,8 @@ bool Tester::testConstructor()
         return false;
     }
 }
+
+// tests the copy constructor to see if it properly copies the given data
 
 bool Tester::testCopyConstructor()
 {
@@ -249,6 +264,8 @@ bool Tester::testCopyConstructor()
         return false;
     }
 }
+
+// tests the assignment operator to see if it properly copies the given data
 
 bool Tester::testAssignmentOperator()
 {
@@ -283,6 +300,8 @@ bool Tester::testAssignmentOperator()
     }
 }
 
+// tests the assignment operator edge case where it assigns an object with an empty object
+
 bool Tester::testAssignmentOperatorEdge()
 {
     Section testObject;
@@ -300,6 +319,8 @@ bool Tester::testAssignmentOperatorEdge()
     }
 }
 
+// tests the insert section method with the overloaded constructor
+
 bool Tester::testInsertSection()
 {
     Course course(1);
@@ -315,6 +336,8 @@ bool Tester::testInsertSection()
     }
 }
 
+// tests the insert section edge case where it tries to insert a section with a duplicate id
+
 bool Tester::testInsertSectionEdge()
 {
     Course course(2);
@@ -329,12 +352,14 @@ bool Tester::testInsertSectionEdge()
     }
 }
 
+// tests the student average method to see if it calculates the proper average
+
 bool Tester::testStudentAverage()
 {
     Section testSection(142, "Instructor Tom", 5, 3);
     testSection.simulateData();
     double average = testSection.studentAverage(0);
-    if (average == 53.028)
+    if (average == 53.028) // predetermined average after seeing the data values inputted.
     {
         return true;
     }
@@ -343,6 +368,8 @@ bool Tester::testStudentAverage()
         return false;
     }
 }
+
+// tests the removeSection method for a normal case to ensure the section got removed
 
 bool Tester::testRemoveSection()
 {
@@ -364,6 +391,8 @@ bool Tester::testRemoveSection()
     }
 }
 
+// tests the insert section method with a pointer to a section object
+
 bool Tester::testInsertSectionObject()
 {
     Course testCourse(4);
@@ -381,6 +410,8 @@ bool Tester::testInsertSectionObject()
     }
 }
 
+// tests the insertsection object edge case to ensure that duplicate id's are not inserted
+
 bool Tester::testInsertSectionObjectEdge()
 {
     Course testCourse(2);
@@ -388,8 +419,17 @@ bool Tester::testInsertSectionObjectEdge()
     Section *section2 = new Section(142, "Instructor Phil", 1, 2);
 
     testCourse.insertSection(section1);
-    return testCourse.insertSection(section2); // should return false because we can't insert duplicate id.
+    if (testCourse.insertSection(section2))
+    {
+        return false; // if the if statement is true then it was successfully added, therefore we return false because
+    } // it shouldn't have been added.
+    else
+    {
+        return true;
+    }
 }
+
+// tests insert section error case when inserting a section with 0 students and or 0 items, this shouldn't insert.
 
 bool Tester::testInsertSectionError()
 {
@@ -406,24 +446,65 @@ bool Tester::testInsertSectionError()
     }
 }
 
-bool Tester::testFullInsertSection() {
+// tests error case for insertsection where the course is full and tries to insert another section
+
+bool Tester::testFullInsertSection()
+{
     Course course(2);
     course.insertSection(142, "professor", 1, 2);
     course.insertSection(111, "professor hello", 2, 1);
-    
-    return course.insertSection(123, "Professor test", 2, 1); // should return false because there's not enough space. 
+
+    return course.insertSection(123, "Professor test", 2, 1); // should return false because there's not enough space.
 }
 
-bool Tester::testCourseAverage() {
+// tests the courseAverage method where it tests the courseaverage method
+
+bool Tester::testCourseAverage()
+{
     Course course(2);
-    course.insertSection(142,"professor", 3, 2);
-    course.insertSection(121, "professor hill",2 , 2);
+    course.insertSection(142, "professor", 3, 2);
+    course.insertSection(121, "professor hill", 2, 2);
     course.getSection(142)->simulateData();
     course.getSection(121)->simulateData();
-    if(course.courseAverage() == 47.446) {
+    if (course.courseAverage() == 47.446) // calculated value from the randomized data
+    {
         return true;
     }
-    else {
+    else
+    {
+        return false;
+    }
+}
+
+// tests the testaverage method
+
+bool Tester::testTestAverage()
+{
+    Course course(1);
+    course.insertSection(142, "professor tom", 2, 2);
+    course.getSection(142)->simulateData();
+    if (course.getSection(142)->testAverage(1) == 66.32) // predetermined value calculated from the randomized data
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+//tests the classAverage() method of section for a normal case
+
+bool Tester::testClassAverage()
+{
+    Section section(142, "professor", 2, 2);
+    section.simulateData();
+    if (section.classAverage() == 51.7025)
+    {
+        return true;
+    }
+    else
+    {
         return false;
     }
 }

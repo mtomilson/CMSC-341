@@ -1,5 +1,7 @@
 // UMBC - CMSC 341 - Spring 2025 - Proj0
 #include "course.h"
+
+//Default Construtor 
 Course::Course()
 {
     m_numSections = 0;
@@ -10,6 +12,9 @@ Course::Course()
     }
     m_maxNumSections = 0;
 }
+
+//Overloaded Constructor
+//@param maxNumSections - takes in max num sections 
 Course::Course(int maxNumSections)
 {
     m_maxNumSections = maxNumSections;
@@ -22,6 +27,9 @@ Course::Course(int maxNumSections)
     }
     m_numSections = 0;
 }
+
+//Destructor
+
 Course::~Course()
 {
     if (m_course != nullptr)
@@ -37,32 +45,21 @@ Course::~Course()
     m_maxNumSections = 0;
     m_numSections = 0;
 }
+
+
+ /**
+
+insertSection() method will insert a section into the course object
+@param ID - id for the section
+@param instructor - name of instructor for the section
+@param numItems - number of grading items
+@param numStudents - number of students for the section
+@return bool - returns true or false if the section was added or not
+
+ */
+
 bool Course::insertSection(int ID, string instructor, int numItems, int numStudents)
 {
-    // if (m_course == nullptr)
-    // {
-
-    //     if (m_maxNumSections == 0)
-    //     {
-    //         m_course = new Section *[DEFNUMSECTIONS]; // if maxNumSections is not set, set the size of the array to def num sections
-    //         m_maxNumSections = DEFNUMSECTIONS;
-    //         for (int i = 0; i < m_maxNumSections; i++)
-    //         {
-    //             m_course[i] = nullptr;
-    //         }
-    //         cout << "course with def num sections, " << m_maxNumSections << ", created" << endl;
-    //     }
-    //     else
-    //     {
-
-    //         cout << "creating m_course" << endl;
-    //         m_course = new Section *[m_maxNumSections]; // creates an array of sections with the size of max num sections
-    //         for (int i = 0; i < m_maxNumSections; i++)
-    //         {
-    //             m_course[i] = nullptr;
-    //         }
-    //     }
-    // }
 
     if (m_numSections >= m_maxNumSections || numStudents == 0 || numItems == 0) // cannot add if number of students or grading items is 0
     {
@@ -88,30 +85,25 @@ bool Course::insertSection(int ID, string instructor, int numItems, int numStude
     m_numSections++;
     return true;
 }
+
+/*
+
+insertSection() method will insert a section into the course object 
+@param aSection - pointer to a reference of a section 
+@return bool - returns true or false if the section was added or not 
+
+*/
+
+
 bool Course::insertSection(Section *&aSection)
 {
     bool canAdd = true;
     if ((aSection->m_section == nullptr) ||
         (m_numSections == m_maxNumSections) ||
-        (aSection->m_numGradingItems == 0) || aSection->m_numStudents == 0)
+        (aSection->m_numGradingItems == 0) || aSection->m_numStudents == 0 || aSection == nullptr)
     {
         canAdd = false;
     }
-
-    // check if course is empty, if empty allocate proper memory
-    // if (m_course == nullptr)
-    // { // if m_course == nullptr, that means it hasn't been initialized yet
-    //     if (m_maxNumSections == 0)
-    //     {                                             // if maxnumsections = 0, then it hasn't been set i hope
-    //         m_course = new Section *[DEFNUMSECTIONS]; // m_course points to an array of sections
-    //         m_maxNumSections = DEFNUMSECTIONS;
-    //     }
-    //     else
-    //     { // if m_MaxNumSections !== 0, then we use m_MaxNumSections to create m_course
-    //         m_course = new Section *[m_maxNumSections];
-    //     }
-    // }
-
     // check dup id
 
     for (int i = 0; i < m_numSections; i++)
@@ -127,9 +119,20 @@ bool Course::insertSection(Section *&aSection)
         m_course[m_numSections] = aSection;
         m_numSections++;
     }
+    else {
+        delete aSection;
+    }
 
     return canAdd;
 }
+
+/*
+removeSection() method will remove sections from the course
+@param sectionID - passes in sectionID to be removed
+@return bool - returns true or false if it was removed or not
+
+*/
+
 
 bool Course::removeSection(int sectionID)
 {
@@ -155,26 +158,43 @@ bool Course::removeSection(int sectionID)
     return false;
 }
 
+/*
+
+courseAverage() method will calculate the average of course 
+return double - returns the calculated course average 
+
+*/
+
+
 double Course::courseAverage()
 {
     double totalGrades = 0.0;
     int numberOfItems = 0;
-    if(m_numSections == 0) { // if there's no sections in the course then we return 0.0 
-        return 0.0; 
+    if (m_numSections == 0)
+    { // if there's no sections in the course then we return 0.0
+        return 0.0;
     }
 
-    for(int i = 0; i < m_numSections; i++) {
-        for(int j = 0; j < m_course[i]->m_numStudents; j++) {
-            for(int k = 0; k < m_course[i]->m_numGradingItems; k++) {
+    for (int i = 0; i < m_numSections; i++)
+    {
+        for (int j = 0; j < m_course[i]->m_numStudents; j++)
+        {
+            for (int k = 0; k < m_course[i]->m_numGradingItems; k++)
+            {
                 totalGrades += m_course[i]->m_section[j][k];
                 numberOfItems++;
             }
-
         }
     }
-   
+
     return totalGrades / numberOfItems;
 }
+
+/*
+
+displaySections() displays the sections inside the course
+
+ */
 
 void Course::displaySections()
 {
@@ -187,6 +207,14 @@ void Course::displaySections()
         cout << endl;
     }
 }
+
+/*
+
+getSection() will return the section with the correspodning section id 
+@param sectionID - passes in the section id of the section we want
+@return Section* - returns the section with the corresponding id 
+
+*/
 
 Section *Course::getSection(int sectionID) const
 {
@@ -206,6 +234,8 @@ Section *Course::getSection(int sectionID) const
     return nullptr;
 }
 
+//Default Constructor
+
 Section::Section()
 {
     m_sectionID = 1;
@@ -214,6 +244,17 @@ Section::Section()
     m_instructor = "";
     m_section = nullptr;
 }
+
+/*
+
+Overloaded Constructor
+@param ID - passes in section ID
+@param instructor - passes in the instructor name
+@param items - passes in the amount of grading items
+@param students - passes in the amount of students
+
+ */
+
 Section::Section(int ID, string instructor, int items, int students)
 {
     // checks if the num grading items or students is negative, if negative create empty object.
@@ -238,28 +279,21 @@ Section::Section(int ID, string instructor, int items, int students)
         }
     }
 }
+
+//Default constructor
+
 Section::~Section()
 {
-    if (m_section != nullptr)
-    {
-        for (int i = 0; i < m_numStudents; i++)
-        {
-            delete[] m_section[i];
-        }
-        delete[] m_section;
-    }
-
-    m_section = nullptr;
-    m_instructor = "";
-    m_sectionID = 1;
-    m_numGradingItems = 0;
-    m_numStudents = 0;
+    clear();
 }
+
+//clear() method will clear and deallocate any memory 
+
 void Section::clear()
 {
     for (int i = 0; i < m_numStudents; i++)
     {
-        delete m_section[i];
+        delete[] m_section[i];
     }
     delete[] m_section;
 
@@ -268,6 +302,9 @@ void Section::clear()
     m_numGradingItems = 0;
     m_numStudents = 0;
 }
+
+//simulateData() method will fill the section's 2D array with data
+
 void Section::simulateData()
 {
     Random random(0, 100, UNIFORMREAL);
@@ -280,8 +317,17 @@ void Section::simulateData()
     }
 }
 
+/*
+
+studentAverage() will calculate the average grades of a given student
+@param student - studnet number to calculate the average for 
+@return double - returns the calculated student average of the given student
+
+*/
+
 double Section::studentAverage(int student)
 {
+    bool found = false;
 
     if (student > m_numStudents || student < 0)
     {
@@ -296,12 +342,30 @@ double Section::studentAverage(int student)
         {
             for (int j = 0; j < m_numGradingItems; j++)
             {
+                found = true;
                 totalGrades += m_section[i][j];
             }
         }
     }
-    return totalGrades / m_numGradingItems;
+    if (found == false)
+    {
+        return 0.0;
+    }
+    else
+    {
+        return totalGrades / m_numGradingItems;
+    }
 }
+
+/*
+
+testAverage() method will calculate the average score of a test
+@param test - test to calculate 
+@return double - returns the calculated average 
+
+ */
+
+
 double Section::testAverage(int test)
 {
     double totalGrades = 0;
@@ -323,6 +387,14 @@ double Section::testAverage(int test)
     }
     return totalGrades / m_numStudents;
 }
+
+/*
+
+classAverage() method will return the average score of all students and all of their tests 
+@return double - returns the calculated average of the class
+
+*/
+
 double Section::classAverage()
 {
     double totalGrades = 0;
@@ -338,6 +410,13 @@ double Section::classAverage()
 
     return totalGrades / totalItems;
 }
+
+/*
+
+Copy Constructor
+@param rhs - Section object to copy data from 
+
+*/
 
 Section::Section(const Section &rhs)
 {
@@ -360,6 +439,16 @@ Section::Section(const Section &rhs)
         }
     }
 }
+
+/*
+
+Assign Operator will copy the right hand side of the = sign 
+@param rhs - object to copy 
+@return Section& - returns the copied section 
+
+*/
+
+
 const Section &Section::operator=(const Section &rhs)
 {
     if (this != &rhs)
@@ -395,6 +484,9 @@ const Section &Section::operator=(const Section &rhs)
 
     return *this;
 }
+
+//dumps data 
+
 void Section::dump()
 {
     if (m_numGradingItems > 0 && m_numStudents > 0 && m_section != nullptr)
@@ -417,10 +509,22 @@ void Section::dump()
 }
 
 // additional getters
+/*
+
+getNumStudents() returns the number of students
+@return int - returns the number of students
+
+*/
 int Section::getNumStudents()
 {
     return m_numStudents;
 }
+
+/*
+
+displayMemberVariables() displays the member variables of section
+
+*/
 
 void Section::displayMemberVariables()
 {
